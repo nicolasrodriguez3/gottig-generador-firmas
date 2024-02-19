@@ -1,16 +1,31 @@
 ---
-
+import Form from "../components/Form.jsx"
 ---
 
-<html lang="en">
+<html lang="es">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
+		<link
+			rel="icon"
+			type="image/png"
+			href="/favicon.png"
+		/>
+		<meta
+			name="viewport"
+			content="width=device-width"
+		/>
+
+		<title>Generador de firmas Gottig</title>
 	</head>
 	<body>
-		<h1>Astro</h1>
+		<div
+			class="absolute top-0 z-[-2] h-screen w-screen bg-white bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(10,109,198,0.2),rgba(255,255,255,0))]">
+		</div>
+		<h1 class="text-3xl text-center p-4 bg-black text-white font-montserrat">
+			Generador de firmas GOTTIG
+		</h1>
+		<main class="p-2 pt-4 md:pt-[5vw] container mx-auto">
+			<Form client:load />
+		</main>
 	</body>
 </html>
