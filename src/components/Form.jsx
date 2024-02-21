@@ -1,5 +1,6 @@
 import { useState } from "preact/hooks"
 import { copyToClipboard } from "../utils/copyToClipboard"
+import { sectors } from "../sectors"
 
 function form() {
 	const [formData, setFormData] = useState({
@@ -17,11 +18,13 @@ function form() {
 			[e.target.name]: e.target.value,
 		}))
 	}
-	const handleSelect = (e) => {
+	const handleSelect = ({ target }) => {
+		const { selectedOptions, value } = target
+
 		setFormData((prevData) => ({
 			...prevData,
-			sector: e.target.selectedOptions[0].text,
-			image: e.target.value,
+			sector: selectedOptions[0].dataset.sector,
+			image: value,
 		}))
 	}
 
@@ -50,19 +53,15 @@ function form() {
 		],
 	}
 
-	const code = `<div style="font-family: andale mono,times; font-size: 12pt;"><p style="margin-bottom: 0cm;"><span style="font-size: 11.0pt; font-family: Montserrat; color: #666666; background: white;">${
-		formData.name
-	}</span></p><strong><span style="font-family: Montserrat; color: #434343; background: white;">${
-		formData.sector
-	}</span></strong>
-<p style="margin-bottom: 0cm;"><span style="font-size: 11.0pt; font-family: Montserrat; color: black;"><a href="mailto:${fullEmail}"><span style="background: white;">${fullEmail}</span></a></span></p><p><span style="font-family: Montserrat; color: black;"><img src="${
-		images[formData.image][0]
-	}" border="0" style="margin: 16px 0;" width="200px" /></span></p><p><span style="font-size: 9.0pt; font-family: Montserrat; line-height: 1.2;">Brindamos soluciones para que nos sigas eligiendo</span><br /><span style="font-size: 9.0pt; font-family: Montserrat; color: #666666;">Seguinos en:&nbsp;</span><span style="font-size: 9.0pt; font-family: Montserrat;"><a href="https://www.instagram.com/gottigycia">Instagram</a><span style="color: #666666;">,&nbsp;</span><a href="https://www.linkedin.com/company/gottig/?viewAsMember=true">Linkedin</a><span style="color: #666666;">&nbsp;&amp;&nbsp;</span><a href="https://www.facebook.com/gottigycia">Facebook</a></span></p></div>`
+	const codeWithRelativeImage = (
+		img
+	) => `<div style="font-family: andale mono,times; font-size: 12pt;"><p style="margin-bottom: 0cm;"><span style="font-size: 11.0pt; font-family: Montserrat; color: #666666; background: white;">${formData.name}</span></p><strong><span style="font-family: Montserrat; color: #434343; background: white;">${formData.sector}</span></strong>
+<p style="margin-bottom: 0cm;"><span style="font-size: 11.0pt; font-family: Montserrat; color: black;"><a href="mailto:${fullEmail}"><span style="background: white;">${fullEmail}</span></a></span></p><p><span style="font-family: Montserrat; color: black;"><img src="${img}" border="0" style="margin: 24px 0 16px;" width="200px" /></span></p><p><span style="font-size: 9.0pt; font-family: Montserrat; line-height: 1.2;">Brindamos soluciones para que nos sigas eligiendo</span><br /><span style="font-size: 9.0pt; font-family: Montserrat; color: #666666;">Seguinos en:&nbsp;</span><span style="font-size: 9.0pt; font-family: Montserrat;"><a href="https://www.instagram.com/gottigycia">Instagram</a><span style="color: #666666;">,&nbsp;</span><a href="https://www.linkedin.com/company/gottig/?viewAsMember=true">Linkedin</a><span style="color: #666666;">&nbsp;&amp;&nbsp;</span><a href="https://www.facebook.com/gottigycia">Facebook</a></span></p></div>`
 
 	const handleSubmit = async (e) => {
 		e.preventDefault()
 		try {
-			await copyToClipboard(code)
+			await copyToClipboard(codeWithRelativeImage(images[formData.image][0]))
 			setMessage("Se ha copiado correctamente al portapapeles.")
 		} catch (error) {
 			setMessage("Ocurrió un error al copiar la firma. Verifique los datos ingresados.")
@@ -126,27 +125,19 @@ function form() {
 						onChange={handleSelect}
 						required>
 						<option value=""></option>
-						<option value="accesorios">Accesorios</option>
-						<option value="estaciones">Encargado</option>
-						<option value="general">Administración</option>
-						<option value="general">Caja</option>
-						<option value="general">Comercial</option>
-						<option value="general">Compras</option>
-						<option value="general">Cuentas Corrientes</option>
-						<option value="general">Pagos</option>
-						<option value="general">Minimercado</option>
-						<option value="general">Recursos Humanos</option>
-						<option value="general">Sistemas</option>
-						<option value="general">Taller</option>
-						<option value="lubricantes">Lubricantes</option>
-						<option value="transporte">Transporte Gottig</option>
+						{sectors.map(({ sector, nombre, referencia }) => (
+							<option
+								value={sector}
+								data-sector={nombre}>
+								{nombre} ({referencia})
+							</option>
+						))}
 					</select>
 				</div>
 				<div class="">
 					<button
 						class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-						type="submit"
-						onClick={() => copyToClipboard(code)}>
+						type="submit">
 						Copiar firma
 					</button>
 				</div>
@@ -157,7 +148,10 @@ function form() {
 				<div
 					style="font-family: andale mono,times; font-size: 12pt;"
 					class="p-4 bg-white">
-					<section dangerouslySetInnerHTML={{ __html: code }}></section>
+					<section
+						dangerouslySetInnerHTML={{
+							__html: codeWithRelativeImage(images[formData.image][1]),
+						}}></section>
 				</div>
 			</div>
 			<div>{message}</div>
