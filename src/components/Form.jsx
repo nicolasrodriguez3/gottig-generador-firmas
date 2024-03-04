@@ -55,8 +55,8 @@ function form() {
 
 	const codeWithRelativeImage = (
 		img
-	) => `<div style="font-family: andale mono,times; font-size: 12pt;"><p style="margin-bottom: 0cm;"><span style="font-size: 11.0pt; font-family: Montserrat; color: #666666; background: white;">${formData.name}</span></p><strong><span style="font-family: Montserrat; color: #434343; background: white;">${formData.sector}</span></strong>
-<p style="margin-bottom: 0cm;"><span style="font-size: 11.0pt; font-family: Montserrat; color: black;"><a href="mailto:${fullEmail}"><span style="background: white;">${fullEmail}</span></a></span></p><p><span style="font-family: Montserrat; color: black;"><img src="${img}" border="0" style="margin: 24px 0 16px;" width="200px" /></span></p><p><span style="font-size: 9.0pt; font-family: Montserrat; line-height: 1.2;">Brindamos soluciones para que nos sigas eligiendo</span><br /><span style="font-size: 9.0pt; font-family: Montserrat; color: #666666;">Seguinos en:&nbsp;</span><span style="font-size: 9.0pt; font-family: Montserrat;"><a href="https://www.instagram.com/gottigycia">Instagram</a><span style="color: #666666;">,&nbsp;</span><a href="https://www.linkedin.com/company/gottig/?viewAsMember=true">Linkedin</a><span style="color: #666666;">&nbsp;&amp;&nbsp;</span><a href="https://www.facebook.com/gottigycia">Facebook</a></span></p></div>`
+	) => `<div style="font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, 'sans-serif'; font-size: 12pt; background: white;">
+	<p style="margin-bottom: 0cm;"><span style="font-size: 11.0pt; color: #666666; ">${formData.name}</span></p><strong><span style="color: #434343;">${formData.sector}</span></strong><p style="margin-bottom: 4px;"><span style="font-size: 11.0pt; color: black;"><a href="mailto:${fullEmail}">${fullEmail}</a></span></p><p><img src="${img}" border="0" style="margin: 24px 32px;" width="150px" /></p><p><span style="font-size: 9.0pt; line-height: 1.2;">Brindamos soluciones para que nos sigas eligiendo</span><br /><span style="font-size: 9.0pt; color: #666666;">Seguinos en:&nbsp;</span><span style="font-size: 9.0pt; "><a href="https://www.instagram.com/gottigycia">Instagram</a><span style="color: #666666;">,&nbsp;</span><a href="https://www.linkedin.com/company/gottig/?viewAsMember=true">Linkedin</a><span style="color: #666666;">&nbsp;&amp;&nbsp;</span><a href="https://www.facebook.com/gottigycia">Facebook</a></span></p></div>`
 
 	const handleSubmit = async (e) => {
 		e.preventDefault()
@@ -149,6 +149,7 @@ function form() {
 					style="font-family: andale mono,times; font-size: 12pt;"
 					class="p-4 bg-white">
 					<section
+						style={{ boxSizing: "content-box" }}
 						dangerouslySetInnerHTML={{
 							__html: codeWithRelativeImage(images[formData.image][1]),
 						}}></section>
